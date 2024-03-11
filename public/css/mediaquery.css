@@ -1,0 +1,77 @@
+@charset "utf-8";
+/* 모바일 - 375 사이즈 */
+@media screen and (max-width: 375px) {
+    #calendar_table th, #calendar_table td {padding: 0;}
+    .container_calendar td {min-width: 25px; width: 25px; height: 25px;}
+}
+/* 모바일, 태블릿 기준 - 764 사이즈 */
+@media screen and (max-width: 764px) {
+    .header .gnb .main_menu,
+    .header .gnb .sub_menu li .login_wrap {display: none !important;}
+    .header .gnb .sub_menu li a.ico_ham {display: block;}
+    .mo_header .gnb h1 {display: none;}
+    .mo_header .gnb a.ico_back {display: block; width: 24px; height: 24px; background-size: cover; background-repeat: no-repeat;height: 12px; background-image: url('../img/common/ico_arrow.png');}
+    .container_rec ul li .rec_cnt {height: 60vw !important;}
+    #footer ul {display: block; flex-direction: column;}
+    #footer ul li + li {margin-top: 20px; padding-top: 20px; border-top: 1px solid #ececec;}
+}
+
+/* PC 기준 - 1024 사이즈 */
+@media screen and (min-width: 1024px){
+    [class^="container_"] {width: 50%; max-width: 1200px; margin: 0 auto;}
+    [class^="container_"].container_category {display: none !important;}
+    .container_trip,
+    .container_rec,
+    .container_category,
+    .container_upcoming,
+    .container_best {width: 100% !important; overflow: hidden;}
+    .main {margin-top: 84px;}
+    .maps_wrap .tab_menu {justify-content: center;}
+
+    #logo{width: 16%;}
+    
+    .container_trip ul,
+    .container_rec ul,
+    .container_category ul,
+    .container_upcoming ul,
+    .container_best ul {display: flex; flex-direction: row;}
+
+    .header {position: fixed; z-index: 100; box-shadow: initial;}
+    .header .gnb {max-width: 1200px; left: 50%; transform: translateX(-50%);}
+    .main_wrap .main {margin-top: 65px; padding: 0;}
+    .main_wrap .main h3 {font-size: 1.3rem; padding: 30px 0 20px;}
+    .main_wrap .main_bg {display: flex !important; align-items: center; background: url('../img/main/bg_main.png') no-repeat center / 100%; min-height: 500px;}
+    .container_trip {position: relative; padding: 52px 0; margin-bottom: 10px !important;}
+    .container_trip .trip_box {display: flex; justify-content: space-around; padding: 25px 50px; width: 65%; border-radius: 15px; background-color: rgb(255, 255, 255, 0.6);}
+    .container_trip .trip_box .trip_cnt {width: 50%;}
+    .container_trip .trip_new {position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 29%; max-width: 290px;}
+    .container_trip .trip_new .btn {margin-top: 0; height: 100px; line-height: initial; background-color: rgb(255, 255, 255, 0.6);}
+    .container_trip .trip_new .btn span {left: 12px; font-size: 1.3rem; font-weight: 700; color: gray;}
+    .container_trip .trip_new span::before {content: ''; position: absolute; background: url('../img/common/btn_plusb.png') center/cover no-repeat;}
+    
+    .trip_schedule {min-width: 250px;}
+    .trip_supplies .input_chk {margin: 0 0 16px;}
+    .trip_supplies h3 {font-size: 1.4rem !important;}
+
+    .container_best ul,
+    .container_upcoming ul {flex-wrap: wrap; justify-content: space-between; align-items: flex-start;}
+    .container_best ul li {width: 32%;}
+    
+    .trip_cnt .trip_schedule {border: none;}
+    .trip_cnt .trip_schedule h3 {margin-bottom: 4px;display: flex; justify-content: center; color: grey;}
+    .maps_wrap .schedule-form {margin: 20px auto; padding: 0 20px; width: 50%;}
+    .create_btnwrap {margin: 64px auto; width: 50%;}
+
+    .trip_list .container_upcoming ul,
+    .btnadd_wrap {margin: 0 auto; width: 50%; justify-content: space-between;}
+    .trip_list .container_upcoming ul li {width: 48%; margin-right: 0;}
+    .chat_wrap .container_chatinfo {max-width: 100%;}
+    .chat_wrap .chat_form {bottom: 0;}
+    
+    .btn_wrap {display: none;}
+    .chat_form {padding: 0 20px; width: 100%;}
+    .main_txt {width: 50%; margin: 64px auto 20px;}
+    #footer ul {padding: 20px 0;}
+}
+
+

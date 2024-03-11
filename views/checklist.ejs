@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>체크리스트</title>
+        <link rel="icon" href="../public/img/common/favicon.png" />
+        <link rel="stylesheet" href="../public/css/reset.css" />
+        <link rel="stylesheet" href="../public/css/common.css" />
+        <link rel="stylesheet" href="../public/css/main.css" />
+        <link rel="stylesheet" href="../public/css/mediaquery.css" />
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    </head>
+    <body>
+        <div id="wrap" class="checklist_wrap">
+            <!-- 헤더 -->
+            <%- include('header.ejs') %>
+            <!--// 헤더 -->
+
+            <!-- 공통 - 사이드 메뉴 -->
+            <%- include('sidemenu.ejs') %>
+            <!--// 공통 - 사이드 메뉴 -->
+
+            <main class="main">
+                <div class="container_checklist">
+                    <div class="trip_supplies">
+                        <h3>여행이름</h3>
+                    </div>
+                    <button type="button" onclick="showInput()" class="btn" id="showBtn">+ 리스트 추가하기</button>
+                    <div class="addBox hide">
+                        <input
+                            type="text"
+                            placeholder="새 리스트 내용"
+                            onkeyup="if(window.event.keyCode == 13) {addList()}"
+                            id="addName"
+                        />
+                        <button type="button" onclick="addList()" class="btn" id="addBtn">등록</button>
+                    </div>
+                </div>
+            </main>
+            <!-- 푸터 -->
+            <%- include('footer.ejs') %>
+            <!--// 푸터 -->
+
+            <!-- 하단 메뉴 : 고정 -->
+            <%- include('btnwrap.ejs') %>
+            <!--// 하단 메뉴 : 고정 -->
+        </div>
+        <!-- 공통 - 사이드 메뉴 -->
+        <script src="../public/js/sidemenu.js"></script>
+        <script>
+            const list = document.querySelector('.trip_supplies');
+            (async function () {
+                try {
+                    const res2 = await axios({
+                        method: 'GET',
+                        url: '/api/schedule/findGroup',
+                        params: {
+                            id: localStorage.getItem('groupId'),
+                        },
+                    });
+                    list.querySelector('h3').textContent = res2.data.result.groupName;
+                } catch {
+                    document.location.href = '/login';
+                }
+                const res = await axios({
+                    method: 'GET',
+                    url: '/api/schedule/findChk',
+                    params: {
+                        groupId: localStorage.getItem('groupId'),
+                    },
+                });
+                for (let i = 0; i < res.data.result.length; i++) {
+                    const { id, listName, isActive } = res.data.result[i];
+                    let html;
+                    if (Boolean(isActive)) {
+                        html = `
+                            <div class="input_chk" onclick="isChecked(${id})">
+                                <input type="checkbox" class="checklist" id="check${id}" name="check${id}" checked />
+                                <label for="check${id}">${listName}</label>
+                                <input type="hidden" id="${id}" />
+                            </div>
+                            `;
+                    } else {
+                        html = `
+                            <div class="input_chk" onclick="isChecked(${id})">
+                                <input type="checkbox" class="checklist" id="check${id}" name="check${id}" />
+                                <label for="check${id}">${listName}</label>
+                                <input type="hidden" id="${id}" />
+                            </div>
+                            `;
+                    }
+                    list.insertAdjacentHTML('beforeend', html);
+                }
+            })();
+
+            async function isChecked(id) {
+                const res = await axios({
+                    method: 'PATCH',
+                    url: '/api/schedule/updateChk',
+                    data: {
+                        id,
+                        isActive: Number(document.querySelector(`#check${id}`).checked),
+                    },
+                });
+            }
+            function showInput() {
+                document.querySelector('#showBtn').classList.add('hide');
+                document.querySelector('.addBox').classList.remove('hide');
+            }
+
+            async function addList() {
+                const addName = document.querySelector('#addName').value;
+                const res = await axios({
+                    method: 'POST',
+                    url: '/api/schedule/addChk',
+                    data: {
+                        listName: addName,
+                        groupId: localStorage.getItem('groupId'),
+                    },
+                });
+                const { id, listName } = res.data.result;
+                const html = `
+                        <div class="input_chk" onclick="isChecked(${id})">
+                            <input type="checkbox" class="checklist" id="check${id}" name="check${id}"  />
+                            <label for="check${id}">${listName}</label>
+                            <input type="hidden" id="${id}" />
+                        </div>
+                        `;
+                list.insertAdjacentHTML('beforeend', html);
+                document.querySelector('#addName').value = '';
+            }
+        </script>
+    </body>
+</html>
