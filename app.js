@@ -4,7 +4,7 @@ const socketIo = require('socket.io');
 const db = require('./models');
 
 const app = express();
-const PORT = 8000;
+const PORT = 8100;
 const server = http.createServer(app);
 const io = socketIo(server);
 
